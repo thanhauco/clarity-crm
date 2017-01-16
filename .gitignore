@@ -1,0 +1,38 @@
+# Build
+bin/
+obj/
+.vs/
+
+# User files
+*.user
+*.suo
+*.userosscommon/
+
+# NuGet
+packages/
+*.nupkg
+
+# Logs
+logs/
+*.log
+
+# Database
+*.mdf
+*.ldf
+
+# Test results
+TestResults/
+
+# IDE
+.idea/
+*.swp
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
