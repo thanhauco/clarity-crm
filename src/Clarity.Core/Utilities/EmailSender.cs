@@ -17,7 +17,17 @@ namespace Clarity.Core.Utilities
         public static void SendTemplate(string to, string templateName, Dictionary<string, string> parameters)
         {
              Logger.LogInfo($"Sending template {templateName} to {to}");
-             // Merging logic would go here
+             
+             string body = $"[Template: {templateName}]\n";
+             if (parameters != null)
+             {
+                 foreach(var param in parameters)
+                 {
+                     body += $"{param.Key}: {param.Value}\n";
+                 }
+             }
+             
+             Send(to, $"Template: {templateName}", body);
         }
     } 
 }
