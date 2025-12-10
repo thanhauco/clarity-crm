@@ -64,6 +64,8 @@ namespace Clarity.Web
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IReportService, ReportService>();
+            services.AddScoped<IOpportunityService, OpportunityService>();
+            services.AddScoped<IOpportunityRepository, OpportunityRepository>();
 
             // Redis Cache
             services.AddDistributedRedisCache(options =>
