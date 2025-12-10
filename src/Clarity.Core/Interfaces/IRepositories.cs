@@ -62,4 +62,12 @@ namespace Clarity.Core.Interfaces
         Task<Opportunity> UpdateAsync(Opportunity opportunity);
         Task<decimal> GetTotalPipelineValueAsync();
     }
+
+    public interface IAuditLogRepository
+    {
+        Task<AuditLog> GetByIdAsync(int id);
+        Task<IEnumerable<AuditLog>> GetByEntityAsync(string entityName, int entityId);
+        Task<IEnumerable<AuditLog>> GetByUserAsync(int userId);
+        Task<AuditLog> CreateAsync(AuditLog log);
+    }
 }

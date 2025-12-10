@@ -14,6 +14,7 @@ namespace Clarity.Data
         public DbSet<Lead> Leads { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Opportunity> Opportunities { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

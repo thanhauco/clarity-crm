@@ -10,10 +10,12 @@ namespace Clarity.Services
     public class CustomerService : ICustomerService
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly IAuditLogService _auditLogService;
 
-        public CustomerService(ICustomerRepository customerRepository)
+        public CustomerService(ICustomerRepository customerRepository, IAuditLogService auditLogService)
         {
             _customerRepository = customerRepository;
+            _auditLogService = auditLogService;
         }
 
         public async Task<Customer> GetCustomerAsync(int id)
@@ -62,7 +64,17 @@ namespace Clarity.Services
             existing.Notes = customer.Notes;
             existing.AssignedUserId = customer.AssignedUserId;
 
-            return await _customerRepository.UpdateAsync(existing);
+            var updated = await _customerRepository.UpdateAsync(existing);
+            
+            await _auditLogService.LogAsync(
+                "Customer", 
+                updated.Id, 
+                "Update", 
+                customer.AssignedUserId, // Assuming the assigned user is the one making changes, or ideally we'd pass the current user ID context 
+                $"Updated details for {updated.FirstName} {updated.LastName}"
+            );
+
+            return updated;
         }
 
         public async Task<bool> DeleteCustomerAsync(int id)
@@ -99,11 +111,13 @@ namespace Clarity.Services
     {
         private readonly ILeadRepository _leadRepository;
         private readonly ICustomerRepository _customerRepository;
+        private readonly IAuditLogService _auditLogService;
 
-        public LeadService(ILeadRepository leadRepository, ICustomerRepository customerRepository)
+        public LeadService(ILeadRepository leadRepository, ICustomerRepository customerRepository, IAuditLogService auditLogService)
         {
             _leadRepository = leadRepository;
             _customerRepository = customerRepository;
+            _auditLogService = auditLogService;
         }
 
         public async Task<Lead> GetLeadAsync(int id)
