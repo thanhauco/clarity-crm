@@ -172,7 +172,17 @@ namespace Clarity.Services
             if (status == LeadStatus.Won || status == LeadStatus.Lost)
                 lead.ClosedAt = DateTime.UtcNow;
 
-            return await _leadRepository.UpdateAsync(lead);
+            var updated = await _leadRepository.UpdateAsync(lead);
+
+            await _auditLogService.LogAsync(
+                "Lead",
+                updated.Id,
+                "StatusChange",
+                lead.AssignedUserId,
+                $"Status updated to {status}"
+            );
+
+            return updated;
         }
 
         public async Task<Customer> ConvertToCustomerAsync(int leadId)
